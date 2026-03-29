@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hubrix Partners — Private Holding Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@200;300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --navy:        #0a1628;
+  --navy-mid:    #112240;
+  --navy-light:  #1a3158;
+  --navy-faint:  #0d1e38;
+  --gold:        #c9a84c;
+  --gold-light:  #e8c96a;
+  --gold-pale:   #f5e9c8;
+  --off-white:   #f5f2ec;
+  --warm-white:  #faf8f4;
+  --charcoal:    #2c2c2a;
+  --muted:       #6b7685;
+  --border-d:    rgba(201,168,76,0.18);
+  --border-l:    rgba(255,255,255,0.07);
+  --border-ll:   rgba(44,44,42,0.1);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════ */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--gold); opacity: 0.4; }
+
+/* ═══════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════ */
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
+
+.cursor-ring {
+  width: 28px; height: 28px;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s ease;
+}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 64px;
+  transition: padding 0.4s ease, background 0.4s ease, border-color 0.4s ease;
+  border-bottom: 1px solid transparent;
+}
+
+nav.scrolled {
+  padding: 18px 64px;
+  background: rgba(10,22,40,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-color: var(--border-l);
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-mark svg { display: block; }
+
+.nav-wordmark { display: flex; flex-direction: column; }
+.nw-top {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+.nw-bot {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  color: #fff;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+.nw-rule {
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+  margin: 4px 0;
+}
+.nw-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--gold);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--gold) !important;
+  color: var(--gold) !important;
+  padding: 10px 24px;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s !important;
+  cursor: pointer;
+}
+
+.nav-cta:hover {
+  background: var(--gold) !important;
+  color: var(--navy) !important;
+}
+
+.nav-cta::after { display: none !important; }
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--gold);
+  transition: all 0.3s;
+}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 64px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background layers */
+.hero-bg-base {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, var(--navy-faint) 0%, var(--navy) 50%, var(--navy-mid) 100%);
+}
+
+.hero-bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.hero-bg-glow {
+  position: absolute;
+  top: -200px; right: -100px;
+  width: 700px; height: 700px;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-bg-glow-2 {
+  position: absolute;
+  bottom: -100px; left: -200px;
+  width: 500px; height: 500px;
+  background: radial-gradient(ellipse, rgba(17,34,64,0.8) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Corner decoration */
+.hero-corner-tl {
+  position: absolute;
+  top: 100px; left: 64px;
+  width: 60px; height: 60px;
+  border-top: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+  opacity: 0.25;
+}
+
+.hero-corner-br {
+  position: absolute;
+  bottom: 80px; right: 64px;
+  width: 60px; height: 60px;
+  border-bottom: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+  opacity: 0.25;
+}
+
+/* Content */
+.hero-content {
+  position: relative;
+  max-width: 800px;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.1s forwards;
+}
+
+.eyebrow-line {
+  width: 36px; height: 1px;
+  background: var(--gold);
+}
+
+.eyebrow-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.hero-h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.2s forwards;
+}
+
+.hero-h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.55);
+  max-width: 540px;
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.35s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.45s forwards;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 16px 36px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 48px rgba(201,168,76,0.2);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-ghost:hover { color: #fff; }
+
+/* Hero stats */
+.hero-stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-l);
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.6s forwards;
+  max-width: 680px;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 32px;
+  border-right: 1px solid var(--border-l);
+  margin-right: 32px;
+}
+
+.hero-stat:last-child {
+  border-right: none;
+  margin-right: 0;
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px; left: 64px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.2s forwards;
+}
+
+.scroll-line {
+  width: 1px; height: 52px;
+  background: linear-gradient(var(--gold), transparent);
+  animation: scrollPulse 2.5s ease-in-out infinite;
+}
+
+.scroll-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
+
+/* ═══════════════════════════════════════
+   DISCLAIMER STRIP
+═══════════════════════════════════════ */
+.disclaimer-strip {
+  background: rgba(201,168,76,0.06);
+  border-top: 1px solid var(--border-d);
+  border-bottom: 1px solid var(--border-d);
+  padding: 16px 64px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.disc-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.disc-icon svg { display: block; }
+
+.disc-text {
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ═══════════════════════════════════════
+   SECTION BASE
+═══════════════════════════════════════ */
+section { position: relative; }
+
+.section-inner {
+  padding: 120px 64px;
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.ey-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.25em;
+}
+
+.ey-rule {
+  width: 36px; height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+}
+
+.ey-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4.5vw, 60px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.section-sub {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.45);
+  max-width: 520px;
+  margin-bottom: 64px;
+}
+
+/* ═══════════════════════════════════════
+   WHAT WE DO
+═══════════════════════════════════════ */
+.what-section {
+  background: var(--navy-mid);
+}
+
+.what-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-l);
+}
+
+.what-card {
+  background: var(--navy-mid);
+  padding: 52px 48px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.what-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.what-card:hover { background: rgba(26,49,88,0.6); }
+.what-card:hover::before { background: linear-gradient(90deg, var(--gold), transparent); }
+
+.wc-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.2em;
+  margin-bottom: 24px;
+  transition: color 0.3s;
+}
+
+.what-card:hover .wc-num { color: var(--gold); }
+
+.wc-icon {
+  width: 44px; height: 44px;
+  border: 1px solid var(--border-d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  transition: border-color 0.3s;
+}
+
+.what-card:hover .wc-icon { border-color: var(--gold); }
+
+.wc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  color: #fff;
+}
+
+.wc-body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ═══════════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════════ */
+.how-section {
+  background: var(--navy);
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-l);
+  margin-top: 0;
+}
+
+.how-step {
+  background: var(--navy);
+  padding: 52px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.how-step::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--border-d);
+  transition: background 0.3s;
+}
+
+.how-step:hover::after {
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), transparent);
+}
+
+.hs-big-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(201,168,76,0.06);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+.hs-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.hs-body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.45);
+}
+
+/* Arrow between steps */
+.how-arrow {
+  position: absolute;
+  right: -1px; top: 50%;
+  transform: translateY(-50%);
+  width: 20px; height: 20px;
+  background: var(--navy);
+  border: 1px solid var(--border-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.how-arrow svg { display: block; }
+
+/* ═══════════════════════════════════════
+   LOCATIONS / PARTNER LOGOS
+═══════════════════════════════════════ */
+.locations-section {
+  background: var(--navy-mid);
+  overflow: hidden;
+}
+
+.logo-marquee-wrap {
+  overflow: hidden;
+  position: relative;
+  margin-top: 0;
+}
+
+.logo-marquee-wrap::before,
+.logo-marquee-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 160px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.logo-marquee-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--navy-mid), transparent);
+}
+
+.logo-marquee-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--navy-mid), transparent);
+}
+
+.logo-track {
+  display: flex;
+  gap: 0;
+  animation: marquee 35s linear infinite;
+  width: max-content;
+}
+
+.logo-item {
+  flex-shrink: 0;
+  padding: 24px 40px;
+  border-right: 1px solid var(--border-l);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.logo-item:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   GALLERY
+═══════════════════════════════════════ */
+.gallery-section {
+  background: var(--navy);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 2px;
+  margin-top: 0;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  background: var(--navy-light);
+  cursor: default;
+}
+
+.gallery-item.tall {
+  grid-row: span 2;
+}
+
+.gallery-inner {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-light) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+  position: relative;
+}
+
+.gallery-item:hover .gallery-inner { transform: scale(1.04); }
+
+.gallery-item.tall .gallery-inner { min-height: 442px; }
+
+/* Placeholder text for image slots */
+.gallery-placeholder {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.12);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Overlay */
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,22,40,0.7) 0%, transparent 50%);
+}
+
+.gallery-tag {
+  position: absolute;
+  top: 16px; left: 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  background: rgba(10,22,40,0.75);
+  padding: 4px 10px;
+  border: 1px solid var(--border-d);
+  text-transform: uppercase;
+}
+
+.gallery-location {
+  position: absolute;
+  bottom: 18px; left: 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ═══════════════════════════════════════
+   THE FOUNDER NOTE
+═══════════════════════════════════════ */
+.founder-section {
+  background: var(--navy-mid);
+}
+
+.founder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.founder-text {}
+
+.founder-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #fff;
+  margin-bottom: 32px;
+  position: relative;
+  padding-left: 28px;
+}
+
+.founder-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 2px;
+  background: var(--gold);
+}
+
+.founder-body {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 40px;
+}
+
+.founder-sig {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sig-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.sig-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Right side: video placeholder */
+.founder-media {
+  position: relative;
+}
+
+.media-frame {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--navy-light);
+  border: 1px solid var(--border-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.media-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+}
+
+.play-btn {
+  position: relative;
+  width: 64px; height: 64px;
+  border: 1px solid rgba(201,168,76,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.play-btn:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,0.08);
+}
+
+.media-caption {
+  margin-top: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   PROCESS
+═══════════════════════════════════════ */
+.process-section {
+  background: var(--navy);
+}
+
+.process-list {
+  border: 1px solid var(--border-l);
+  max-width: 760px;
+}
+
+.process-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 32px;
+  padding: 40px 48px;
+  border-bottom: 1px solid var(--border-l);
+  align-items: flex-start;
+  transition: background 0.3s;
+  cursor: default;
+}
+
+.process-item:last-child { border-bottom: none; }
+.process-item:hover { background: rgba(201,168,76,0.03); }
+
+.pi-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  padding-top: 5px;
+}
+
+.pi-content {}
+
+.pi-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.pi-body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ═══════════════════════════════════════
+   CTA
+═══════════════════════════════════════ */
+.cta-section {
+  background: var(--navy-mid);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.cta-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cta-corner-tl {
+  position: absolute;
+  top: 48px; left: 64px;
+  width: 48px; height: 48px;
+  border-top: 1px solid rgba(201,168,76,0.2);
+  border-left: 1px solid rgba(201,168,76,0.2);
+}
+
+.cta-corner-br {
+  position: absolute;
+  bottom: 48px; right: 64px;
+  width: 48px; height: 48px;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  border-right: 1px solid rgba(201,168,76,0.2);
+}
+
+.cta-inner {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.cta-section .section-eyebrow { justify-content: center; }
+.cta-section .section-sub     { margin-left: auto; margin-right: auto; text-align: center; }
+
+.cta-disclaimer {
+  margin-top: 48px;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.2);
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: rgba(5, 12, 22, 0.98);
+  border-top: 1px solid var(--border-l);
+  padding: 56px 64px 40px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 64px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border-l);
+  margin-bottom: 32px;
+}
+
+.footer-brand {}
+
+.footer-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.fb-wordmark { display: flex; flex-direction: column; }
+.fb-top { font-family:'DM Sans',sans-serif; font-weight:600; font-size:13px; color:#fff; letter-spacing:0.04em; }
+.fb-bot { font-family:'DM Sans',sans-serif; font-weight:300; font-size:13px; color:#fff; letter-spacing:0.04em; }
+.fb-rule { height:1px; background:var(--gold); opacity:0.35; margin: 3px 0; }
+.fb-tag  { font-family:'DM Mono',monospace; font-size:7px; color:var(--gold); letter-spacing:0.22em; text-transform:uppercase; }
+
+.footer-tagline {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.3);
+}
+
+.footer-col-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.4);
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-bottom {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.footer-legal {
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.18);
+  max-width: 640px;
+}
+
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 0.12em;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════
+   REVEAL ANIMATIONS
+═══════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ═══════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  nav, .section-inner, .disclaimer-strip, footer { padding-left: 40px; padding-right: 40px; }
+  .hero { padding-left: 40px; padding-right: 40px; }
+  .process-item { padding: 32px 36px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,22,40,0.98);
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    z-index: 99;
+  }
+  .nav-links.open a { font-size: 18px; }
+  .nav-toggle { display: flex; }
+
+  .hero { padding: 120px 24px 80px; }
+  .hero-h1 { font-size: 48px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .hero-stat { border-right: none; margin-right: 0; }
+
+  .section-inner { padding: 80px 24px; }
+  .disclaimer-strip { padding: 14px 24px; }
+
+  .what-grid { grid-template-columns: 1fr; }
+  .how-grid  { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-item.tall { grid-row: auto; }
+  .gallery-item.tall .gallery-inner { min-height: 220px; }
+
+  .founder-grid { grid-template-columns: 1fr; gap: 40px; }
+
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; gap: 16px; }
+
+  .cursor-dot, .cursor-ring { display: none; }
+  .scroll-indicator { display: none; }
+  .hero-corner-tl, .hero-corner-br { display: none; }
+}
+
+@media (max-width: 480px) {
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .process-item { grid-template-columns: 40px 1fr; gap: 20px; padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ══════════════════════════════════
+     NAV
+══════════════════════════════════ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-mark">
+      <svg width="40" height="40" viewBox="0 0 52 52" fill="none">
+        <polygon points="26,3 49,14.5 49,37.5 26,49 3,37.5 3,14.5" fill="none" stroke="#c9a84c" stroke-width="1"/>
+        <polygon points="26,9 43,18 43,34 26,43 9,34 9,18" fill="#c9a84c" fill-opacity="0.07"/>
+        <line x1="19" y1="19" x2="19" y2="33" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="33" y1="19" x2="33" y2="33" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="19" y1="26" x2="33" y2="26" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="nav-wordmark">
+      <span class="nw-top">HUBRIX</span>
+      <span class="nw-bot">PARTNERS</span>
+      <div class="nw-rule"></div>
+      <span class="nw-tag">Private Holding Group</span>
+    </div>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#enquire" class="nav-cta">Request Consultation</a></li>
+  </ul>
+
+  <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-base"></div>
+  <div class="hero-bg-grid"></div>
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow-2"></div>
+  <div class="hero-corner-tl"></div>
+  <div class="hero-corner-br"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Singapore — Est. 2024</span>
+    </div>
+
+    <h1 class="hero-h1">
+      Built to<br>
+      <em>operate.</em><br>
+      Built to last.
+    </h1>
+
+    <p class="hero-sub">
+      Hubrix Partners is a private holding group. We build and operate businesses across industries. Each business runs independently, backed by the group's structure, network, and long-term view.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#enquire" class="btn-primary">
+        Request Private Consultation
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <line x1="2" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <polyline points="8,4 11,7 8,10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </a>
+      <a href="#how" class="btn-ghost">
+        See how it works
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <line x1="6" y1="2" x2="6" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <polyline points="3,7 6,10 9,7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-num">24h</span>
+        <span class="stat-label">Operational uptime</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">10+</span>
+        <span class="stat-label">Deployment locations</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">SG</span>
+        <span class="stat-label">Headquartered</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">MAS</span>
+        <span class="stat-label">Operator regulated</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer-strip">
+  <div class="disc-icon">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <circle cx="7" cy="7" r="6" stroke="#c9a84c" stroke-width="1" opacity="0.6"/>
+      <line x1="7" y1="5" x2="7" y2="7.5" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="7" cy="9.5" r="0.6" fill="#c9a84c"/>
+    </svg>
+  </div>
+  <p class="disc-text">
+    This website does not constitute an offer or solicitation to buy or sell any regulated financial product or capital markets product as defined under the Securities and Futures Act (Cap. 289). Any business participation described herein is the acquisition of a commercial arrangement with an independently licensed operator. Participants should seek independent legal and financial advice before proceeding.
+  </p>
+</div>
+
+<!-- ══════════════════════════════════
+     WHAT WE DO
+══════════════════════════════════ -->
+<section class="what-section" id="services">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <span class="ey-num">01</span>
+      <div class="ey-rule"></div>
+      <span class="ey-label">What We Do</span>
+    </div>
+    <h2 class="section-title reveal">
+      We don't advise.<br>
+      We <em>operate.</em>
+    </h2>
+    <p class="section-sub reveal">
+      Hubrix Partners builds and operates businesses with real infrastructure, real operators, and real deployment. Every business in the group runs independently under its own brand.
+    </p>
+
+    <div class="what-grid">
+      <div class="what-card reveal">
+        <div class="wc-num">01 — Business Development</div>
+        <div class="wc-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="2" width="16" height="16" stroke="#c9a84c" stroke-width="1"/>
+            <rect x="6" y="6" width="8" height="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+          </svg>
+        </div>
+        <h3 class="wc-title">We identify and build operating businesses.</h3>
+        <p class="wc-body">Each business in the group is selected because it solves a concrete problem in a real market. We build the structure, engage the operators, and let each business run on its own terms.</p>
+      </div>
+
+      <div class="what-card reveal reveal-delay-1">
+        <div class="wc-num">02 — Operator Network</div>
+        <div class="wc-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="8" stroke="#c9a84c" stroke-width="1"/>
+            <circle cx="10" cy="10" r="4" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+            <circle cx="10" cy="10" r="1.5" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <h3 class="wc-title">Licensed operators run day-to-day.</h3>
+        <p class="wc-body">Hubrix does not manage daily operations directly. We connect assets to independently licensed operators who handle compliance, maintenance, and execution. The group provides structure and oversight.</p>
+      </div>
+
+      <div class="what-card reveal reveal-delay-2">
+        <div class="wc-num">03 — Due Diligence</div>
+        <div class="wc-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <polygon points="10,2 18,10 10,18 2,10" stroke="#c9a84c" stroke-width="1" fill="none"/>
+            <line x1="10" y1="6" x2="10" y2="14" stroke="#c9a84c" stroke-width="0.5" opacity="0.5"/>
+            <line x1="6" y1="10" x2="14" y2="10" stroke="#c9a84c" stroke-width="0.5" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3 class="wc-title">Every participant reviews the full picture.</h3>
+        <p class="wc-body">Before any party engages with a Hubrix business, we provide full documentation, operator agreements, and relevant disclosures. We do not rush the process. Independent advice is always recommended.</p>
+      </div>
+
+      <div class="what-card reveal reveal-delay-3">
+        <div class="wc-num">04 — Long-Term Structure</div>
+        <div class="wc-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="10" width="4" height="8" stroke="#c9a84c" stroke-width="1"/>
+            <rect x="8" y="6" width="4" height="12" stroke="#c9a84c" stroke-width="1"/>
+            <rect x="14" y="2" width="4" height="16" stroke="#c9a84c" stroke-width="1"/>
+          </svg>
+        </div>
+        <h3 class="wc-title">Built for the long term, not the short pitch.</h3>
+        <p class="wc-body">Hubrix takes a conglomerate view. Businesses are entered with permanence in mind. We are not a fund, not a startup, not a pitch deck. We are a group that builds things and holds them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════ -->
+<section class="how-section" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <span class="ey-num">02</span>
+      <div class="ey-rule"></div>
+      <span class="ey-label">The Structure</span>
+    </div>
+    <h2 class="section-title reveal">Three parties.<br>One <em>clear</em> structure.</h2>
+    <p class="section-sub reveal">
+      Understanding the relationship between the group, the operating business, and the licensed operator is the foundation before any engagement.
+    </p>
+
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="hs-big-num">01</div>
+        <h3 class="hs-title">Business Owner</h3>
+        <p class="hs-body">A party acquires a physical operating asset. This is a tangible business acquisition, not a financial instrument. The owner holds title to the asset and enters a separate commercial arrangement with a licensed operator.</p>
+        <div class="how-arrow">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <line x1="1" y1="5" x2="8" y2="5" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+            <polyline points="5.5,2.5 8,5 5.5,7.5" stroke="#c9a84c" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-1">
+        <div class="hs-big-num">02</div>
+        <h3 class="hs-title">Licensed Operator</h3>
+        <p class="hs-body">An independently licensed operator manages the asset's deployment, maintenance, regulatory compliance, and daily operations under a commercial agreement. The operator is regulated and accountable for operations.</p>
+        <div class="how-arrow">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <line x1="1" y1="5" x2="8" y2="5" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+            <polyline points="5.5,2.5 8,5 5.5,7.5" stroke="#c9a84c" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="how-step reveal reveal-delay-2">
+        <div class="hs-big-num">03</div>
+        <h3 class="hs-title">Commercial Arrangement</h3>
+        <p class="hs-body">Under the operator agreement, proceeds are shared in accordance with agreed terms between the operator and the owner. Specific amounts, conditions, and structure are set by the agreement. Results are not guaranteed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     LOCATIONS / PARTNER STRIP
+══════════════════════════════════ -->
+<section class="locations-section">
+  <div class="section-inner" style="padding-bottom: 0;">
+    <div class="section-eyebrow reveal">
+      <span class="ey-num">03</span>
+      <div class="ey-rule"></div>
+      <span class="ey-label">Deployment Footprint</span>
+    </div>
+    <h2 class="section-title reveal">Where our businesses <em>operate.</em></h2>
+    <p class="section-sub reveal" style="margin-bottom: 48px;">
+      Licensed operators within our network maintain a presence across Singapore's leading hospitality and travel properties. The following are illustrative of the operator's existing footprint.
+    </p>
+  </div>
+
+  <div class="logo-marquee-wrap">
+    <div class="logo-track">
+      <span class="logo-item">Changi Airport</span>
+      <span class="logo-item">CapitaLand</span>
+      <span class="logo-item">Resorts World Sentosa</span>
+      <span class="logo-item">Shangri-La Hotels</span>
+      <span class="logo-item">Marriott International</span>
+      <span class="logo-item">Hilton</span>
+      <span class="logo-item">Novotel</span>
+      <span class="logo-item">Holiday Inn</span>
+      <span class="logo-item">Parkroyal Collection</span>
+      <span class="logo-item">Citadines Apart'Hotel</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="logo-item">Changi Airport</span>
+      <span class="logo-item">CapitaLand</span>
+      <span class="logo-item">Resorts World Sentosa</span>
+      <span class="logo-item">Shangri-La Hotels</span>
+      <span class="logo-item">Marriott International</span>
+      <span class="logo-item">Hilton</span>
+      <span class="logo-item">Novotel</span>
+      <span class="logo-item">Holiday Inn</span>
+      <span class="logo-item">Parkroyal Collection</span>
+      <span class="logo-item">Citadines Apart'Hotel</span>
+    </div>
+  </div>
+
+  <div style="height: 72px;"></div>
+</section>
+
+<!-- ══════════════════════════════════
+     GALLERY
+══════════════════════════════════ -->
+<section class="gallery-section" id="gallery">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <span class="ey-num">04</span>
+      <div class="ey-rule"></div>
+      <span class="ey-label">Live Operations</span>
+    </div>
+    <h2 class="section-title reveal">Machines in the <em>field.</em></h2>
+    <p class="section-sub reveal">Live kiosk units deployed across Singapore and regionally by licensed operators within our network.</p>
+  </div>
+
+  <div style="padding: 0 64px 120px;" class="reveal">
+    <div class="gallery-grid">
+      <div class="gallery-item tall">
+        <div class="gallery-inner">
+          <span class="gallery-placeholder">Replace with<br>image asset</span>
+          <div class="gallery-overlay"></div>
+          <span class="gallery-tag">Live</span>
+          <span class="gallery-location">Singapore Hub</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-inner">
+          <span class="gallery-placeholder">Replace with<br>image asset</span>
+          <div class="gallery-overlay"></div>
+          <span class="gallery-tag">Live</span>
+          <span class="gallery-location">Changi Transit</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-inner">
+          <span class="gallery-placeholder">Replace with<br>image asset</span>
+          <div class="gallery-overlay"></div>
+          <span class="gallery-tag">Live</span>
+          <span class="gallery-location">Integrated Resort</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-inner">
+          <span class="gallery-placeholder">Replace with<br>image asset</span>
+          <div class="gallery-overlay"></div>
+          <span class="gallery-tag">Live</span>
+          <span class="gallery-location">Hotel Lobby</span>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-inner">
+          <span class="gallery-placeholder">Replace with<br>image asset</span>
+          <div class="gallery-overlay"></div>
+          <span class="gallery-tag">Regional</span>
+          <span class="gallery-location">Australia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOUNDER NOTE
+══════════════════════════════════ -->
+<section class="founder-section">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <span class="ey-num">05</span>
+      <div class="ey-rule"></div>
+      <span class="ey-label">From the Founder</span>
+    </div>
+
+    <div class="founder-grid">
+      <div class="founder-text reveal">
+        <blockquote class="founder-quote">
+          "From airports to hotels, modern travel depends on systems that run quietly in the background. Most people never notice them. That's exactly the point."
+        </blockquote>
+        <p class="founder-body">
+          Hubrix Partners was built around a simple thesis: the most durable businesses are the ones nobody talks about, because they just work. We look for infrastructure that is genuinely needed, find the best operators to run it, and build structures that hold.
+        </p>
+        <p class="founder-body" style="margin-bottom: 32px;">
+          Every business we enter is a long-term commitment. We are not here to flip, to fundraise, or to make noise. We are here to operate.
+        </p>
+        <div class="founder-sig">
+          <span class="sig-name">Founder, Hubrix Partners</span>
+          <span class="sig-role">Private Holding Group — Singapore</span>
+        </div>
+      </div>
+
+      <div class="founder-media reveal reveal-delay-1">
+        <div class="media-frame">
+          <div class="play-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <polygon points="5,3 15,9 5,15" stroke="#c9a84c" stroke-width="1" fill="rgba(201,168,76,0.15)" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <p class="media-caption">FXChange — Machine in operation at Jewel Changi</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PROCESS
+══════════════════════════════════ -->
+<section class="process-section" id="enquire">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">
+      <span class="ey-num">06</span>
+      <div class="ey-rule"></div>
+      <span class="ey-label">Consultation Process</span>
+    </div>
+    <h2 class="section-title reveal">How the<br><em>consultation</em> works.</h2>
+    <p class="section-sub reveal">
+      No pressure. No commitment. Come with questions. Leave with a full picture.
+    </p>
+
+    <div class="process-list reveal">
+      <div class="process-item">
+        <span class="pi-num">01</span>
+        <div class="pi-content">
+          <h3 class="pi-title">Submit a Consultation Request</h3>
+          <p class="pi-body">Complete the enquiry form or reach out directly. We confirm receipt within one business day and schedule an initial call at a time that works for you.</p>
+        </div>
+      </div>
+      <div class="process-item">
+        <span class="pi-num">02</span>
+        <div class="pi-content">
+          <h3 class="pi-title">Initial Discussion with a Hubrix Representative</h3>
+          <p class="pi-body">We walk you through the business structure, the operator arrangement, and what participation entails in full. This is an informational conversation. We do not provide financial advice.</p>
+        </div>
+      </div>
+      <div class="process-item">
+        <span class="pi-num">03</span>
+        <div class="pi-content">
+          <h3 class="pi-title">Review All Documentation and Operator Agreements</h3>
+          <p class="pi-body">We provide all relevant documentation for your independent review. We strongly encourage you to consult a qualified legal and financial adviser before proceeding further.</p>
+        </div>
+      </div>
+      <div class="process-item">
+        <span class="pi-num">04</span>
+        <div class="pi-content">
+          <h3 class="pi-title">Decide Whether Participation Is Right for You</h3>
+          <p class="pi-body">There is no obligation at any point in this process. Engagement should only proceed if the arrangement is fully understood and appropriate for your personal circumstances.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     CTA
+══════════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-bg-grid"></div>
+  <div class="cta-glow"></div>
+  <div class="cta-corner-tl"></div>
+  <div class="cta-corner-br"></div>
+
+  <div class="section-inner">
+    <div class="cta-inner">
+      <div class="section-eyebrow reveal" style="justify-content:center">
+        <span class="ey-num" style="color:var(--gold)">—</span>
+        <span class="ey-label">Get in Touch</span>
+      </div>
+
+      <h2 class="section-title reveal" style="font-size: clamp(36px, 5vw, 64px); margin-bottom: 20px;">
+        Ready to have<br>a <em>real</em> conversation?
+      </h2>
+
+      <p class="section-sub reveal" style="text-align:center; margin-left:auto; margin-right:auto;">
+        A private consultation is the first step. No commitment required. Come informed, leave with clarity.
+      </p>
+
+      <div class="reveal" style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+        <a href="mailto:enquiries@hubrixpartners.com" class="btn-primary">
+          Request Private Consultation
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <line x1="2" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <polyline points="8,4 11,7 8,10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </a>
+      </div>
+
+      <p class="cta-disclaimer reveal">
+        This is not a solicitation for a regulated financial product. The acquisition of any Hubrix business unit constitutes the purchase of a physical commercial asset. Any associated operator arrangement is a separate commercial agreement between the owner and an independently licensed operator. Hubrix Partners does not guarantee any operational outcome, revenue, or return. Please seek independent professional advice before making any decision.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="footer-brand-logo">
+        <svg width="32" height="32" viewBox="0 0 52 52" fill="none">
+          <polygon points="26,3 49,14.5 49,37.5 26,49 3,37.5 3,14.5" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
+          <line x1="19" y1="19" x2="19" y2="33" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="33" y1="19" x2="33" y2="33" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="19" y1="26" x2="33" y2="26" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="fb-wordmark">
+          <span class="fb-top">HUBRIX</span>
+          <span class="fb-bot">PARTNERS</span>
+          <div class="fb-rule"></div>
+          <span class="fb-tag">Private Holding Group</span>
+        </div>
+      </a>
+      <p class="footer-tagline">
+        A private holding group that builds and operates businesses across industries. Headquartered in Singapore.
+      </p>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="#services">What We Do</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#enquire">Consultation Process</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Businesses</div>
+      <ul class="footer-links">
+        <li><a href="#">FX Infrastructure</a></li>
+        <li><a href="#" style="opacity:0.4; pointer-events:none">Real Estate — Soon</a></li>
+        <li><a href="#" style="opacity:0.4; pointer-events:none">More — In Development</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="mailto:enquiries@hubrixpartners.com">General Enquiries</a></li>
+        <li><a href="mailto:enquiries@hubrixpartners.com">Request Consultation</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-legal">
+      Hubrix Partners Pte. Ltd. is not a licensed financial adviser, capital markets services licensee, or exempt financial adviser under the Financial Advisers Act (Cap. 110) or the Securities and Futures Act (Cap. 289). Nothing on this website constitutes financial advice, an offer to acquire a financial product, or a recommendation to engage in any transaction. Registered in Singapore.
+    </p>
+    <span class="footer-copy">© 2024 Hubrix Partners</span>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════
+     JS
+══════════════════════════════════ -->
+<script>
+// ── Cursor
+const dot  = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+
+if (dot && ring) {
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+  });
+
+  (function animateRing() {
+    rx += (mx - rx) * 0.14;
+    ry += (my - ry) * 0.14;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  document.querySelectorAll('a, button, .what-card, .how-step, .process-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width  = '48px';
+      ring.style.height = '48px';
+      ring.style.borderColor = 'rgba(201,168,76,0.7)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width  = '28px';
+      ring.style.height = '28px';
+      ring.style.borderColor = 'rgba(201,168,76,0.4)';
+    });
+  });
+}
+
+// ── Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── Mobile nav
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+// ── Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+reveals.forEach(el => revealObs.observe(el));
+
+// ── Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = 80;
+      window.scrollTo({
+        top: target.getBoundingClientRect().top + window.scrollY - offset,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
